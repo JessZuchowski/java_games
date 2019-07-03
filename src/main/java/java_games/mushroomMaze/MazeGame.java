@@ -1,5 +1,7 @@
 package java_games.mushroomMaze;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,7 @@ public class MazeGame extends Canvas implements  Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private MazeObjectHandler handler;
+    private Camera camera;
 
     private BufferedImage maze = null;
 
@@ -20,6 +23,7 @@ public class MazeGame extends Canvas implements  Runnable {
         start();
 
         handler = new MazeObjectHandler();
+        camera = new Camera(0,0);
         //key listener for canvas
         this.addKeyListener(new MazeKeyInput(handler));
 
@@ -78,6 +82,14 @@ public class MazeGame extends Canvas implements  Runnable {
 
     //method to update game (60 times per second)
     public void tick() {
+
+        //loop through objects, find player object for camera parameters
+        for (int i = 0; i < handler.object.size(); i++) {
+            if (handler.object.get(i).getId() == ID.Player) {
+                camera.tick(handler.object.get(i));
+            }
+        }
+
         handler.tick();
 
     }
@@ -92,14 +104,19 @@ public class MazeGame extends Canvas implements  Runnable {
         }
 
         Graphics g = bs.getDrawGraphics();
+        Graphics2D g2d = (Graphics2D) g;
         //BEGIN DRAWING TO GAME
 
         //background
         g.setColor(Color.gray);
         g.fillRect(0, 0, 1000, 700);
 
+        //everything between g2d.translates is translated, keep bg above
+        g2d.translate(-camera.getX(), -camera.getY());
+
         handler.render(g); //needs to be under bg
 
+        g2d.translate(camera.getX(), camera.getY());
 
         //END DRAWING TO GAME
         g.dispose();
