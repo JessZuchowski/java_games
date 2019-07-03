@@ -9,11 +9,19 @@ public class MazeGame extends Canvas implements  Runnable {
 
     private boolean isRunning = false;
     private Thread thread;
+    private MazeObjectHandler handler;
 
     //constructor
     public MazeGame() {
         new MazeWindow(1000, 700, "Jae's Maze", this);
         start();
+
+        handler = new MazeObjectHandler();
+        //key listener for canvas
+        this.addKeyListener(new MazeKeyInput(handler));
+
+        handler.addObject(new Mushroom(500, 350, ID.Player, handler));
+
     }
 
     private void start() {
@@ -63,6 +71,7 @@ public class MazeGame extends Canvas implements  Runnable {
 
     //method to update game (60 times per second)
     public void tick() {
+        handler.tick();
 
     }
 
@@ -78,8 +87,11 @@ public class MazeGame extends Canvas implements  Runnable {
         Graphics g = bs.getDrawGraphics();
         //BEGIN DRAWING TO GAME
 
+        //background
         g.setColor(Color.gray);
         g.fillRect(0, 0, 1000, 700);
+
+        handler.render(g); //needs to be under bg
 
 
         //END DRAWING TO GAME
