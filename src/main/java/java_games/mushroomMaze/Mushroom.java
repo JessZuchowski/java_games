@@ -15,6 +15,8 @@ public class Mushroom extends MazeGameObject{
     public void tick() {
         x += velocityX;
         y += velocityY;
+        
+        wallCollision();
 
         //set movement handlers
         //else if to prevent lag
@@ -31,6 +33,22 @@ public class Mushroom extends MazeGameObject{
         else if (!handler.isLeft()) velocityX = 0;
     }
 
+    private void wallCollision() {
+
+        for (int i = 0; i < handler.object.size(); i ++) {
+            MazeGameObject tempObject = handler.object.get(i);
+
+            if (tempObject.getId() == ID.Wall) {
+
+                if (getBounds().intersects(tempObject.getBounds())) {
+
+                    x += velocityX * -1;
+                    y += velocityY * -1;
+                }
+            }
+        }
+    }
+
     @Override
     public void render(Graphics g) {
         g.setColor(Color.orange);
@@ -40,6 +58,7 @@ public class Mushroom extends MazeGameObject{
 
     @Override
     public Rectangle getBounds() {
+
         return new Rectangle(x, y, 20, 30);
     }
 }
