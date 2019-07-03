@@ -1,7 +1,8 @@
-package java_games.jaesMaze;
+package java_games.mushroomMaze;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class MazeGame extends Canvas implements  Runnable {
 
@@ -11,16 +12,22 @@ public class MazeGame extends Canvas implements  Runnable {
     private Thread thread;
     private MazeObjectHandler handler;
 
+    private BufferedImage maze = null;
+
     //constructor
     public MazeGame() {
-        new MazeWindow(1000, 700, "Jae's Maze", this);
+        new MazeWindow(1000, 700, "Mushroom Maze", this);
         start();
 
         handler = new MazeObjectHandler();
         //key listener for canvas
         this.addKeyListener(new MazeKeyInput(handler));
 
-        handler.addObject(new Mushroom(500, 350, ID.Player, handler));
+        //load maze image
+        BufferedImageLoader loader =  new BufferedImageLoader();
+        maze = loader.loadImage("/maze1.png");
+
+        loadMaze(maze);
 
     }
 
@@ -99,6 +106,28 @@ public class MazeGame extends Canvas implements  Runnable {
         bs.show();
 
     }
+
+    //loading maze
+    private void loadMaze(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        for (int xx = 0; xx < width; xx++) {
+            for (int yy = 0; yy < height; yy++) {
+                int pixel = image.getRGB(xx, yy);
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = (pixel) & 0xff;
+
+                if (red == 255)
+                    handler.addObject(new Wall(xx * 20, yy * 20, ID.Wall));
+
+                if (blue == 255)
+                    handler.addObject(new Mushroom(xx * 20, yy * 30, ID.Player, handler));
+            }
+        }
+    }
+
 
     public static void main (String args[]) {
         new MazeGame();

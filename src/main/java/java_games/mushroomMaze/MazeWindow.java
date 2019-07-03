@@ -1,4 +1,4 @@
-package java_games.jaesMaze;
+package java_games.mushroomMaze;
 
 import javax.swing.*;
 import java.awt.*;

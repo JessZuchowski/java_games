@@ -7,3 +7,5 @@ Following the [Java Game Programming Wizard tutorial](https://www.youtube.com/wa
 JFrame
 
 Canvas
+
+[Maze Generator](http://www.mazegenerator.net/) for maze design inspiration.
