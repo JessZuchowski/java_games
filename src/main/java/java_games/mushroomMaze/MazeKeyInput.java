@@ -1,8 +1,7 @@
-package java_games.jaesMaze;
+package java_games.mushroomMaze;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 public class MazeKeyInput extends KeyAdapter {
 
