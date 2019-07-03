@@ -24,8 +24,10 @@ public class MazeGame extends Canvas implements  Runnable {
 
         handler = new MazeObjectHandler();
         camera = new Camera(0,0);
-        //key listener for canvas
+
+        //key and mouse listeners
         this.addKeyListener(new MazeKeyInput(handler));
+        this.addMouseListener(new MazeMouseInput(handler, camera));
 
         //load maze image
         BufferedImageLoader loader =  new BufferedImageLoader();
