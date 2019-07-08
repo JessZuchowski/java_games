@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Mushroom extends MazeGameObject{
 
-    MazeObjectHandler handler;
+    private MazeObjectHandler handler;
 
     public Mushroom(int x, int y, ID id, MazeObjectHandler handler) {
         super(x, y, id);
