@@ -143,6 +143,9 @@ public class MazeGame extends Canvas implements  Runnable {
 
                 if (blue == 255)
                     handler.addObject(new Mushroom(xx * 20, yy * 30, ID.Player, handler));
+
+                if (green == 255)
+                    handler.addObject(new Slug(xx * 30, yy * 20, ID.Enemy, handler));
             }
         }
     }
