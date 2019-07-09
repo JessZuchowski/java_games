@@ -25,14 +25,18 @@ public class Slug extends MazeGameObject{
 
         for (int i = 0; i < handler.object.size(); i++) {
             MazeGameObject tempObject = handler.object.get(i);
+
             //wall collision with auto correct
             if (tempObject.getId() == ID.Wall) {
-                if (getBounds().intersects(tempObject.getBounds())) {
+
+                if (getBoundsBubble().intersects(tempObject.getBounds())) {
+                    //change velocity
                     x += (velocityX * 2) * -1;
                     y += (velocityY * 2) * -1;
                     velocityX *= -1;
                     velocityY *= -1;
-                } else if ( choose == 0) {
+
+                } else if (choose == 0) {
                     velocityX = (r.nextInt(4 - -4) + -4);
                     velocityY = (r.nextInt(4 - -4) + -4);
                 }
@@ -44,7 +48,11 @@ public class Slug extends MazeGameObject{
                 }
             }
         }
-        if (hp <= 0) handler.removeObject(this);
+        //when hp reach 0, turn slug into food
+        if (hp <= 0) {
+            handler.removeObject(this);
+            handler.addObject(new Food(this.getX(), this.getY(), ID.Food));
+        }
     }
 
     @Override
