@@ -5,10 +5,12 @@ import java.awt.*;
 public class Mushroom extends MazeGameObject{
 
     private MazeObjectHandler handler;
+    public  MazeGame game;
 
-    public Mushroom(int x, int y, ID id, MazeObjectHandler handler) {
+    public Mushroom(int x, int y, ID id, MazeObjectHandler handler, MazeGame game) {
         super(x, y, id);
         this.handler = handler;
+        this.game = game;
     }
 
     @Override
@@ -44,6 +46,13 @@ public class Mushroom extends MazeGameObject{
 
                     x += velocityX * -1;
                     y += velocityY * -1;
+                }
+            }
+            //remove food object and add nutriends
+            if (tempObject.getId() == ID.Food) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    game.nutrients += 5;
+                    handler.removeObject(tempObject);
                 }
             }
         }

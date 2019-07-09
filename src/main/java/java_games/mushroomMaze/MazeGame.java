@@ -17,9 +17,11 @@ public class MazeGame extends Canvas implements  Runnable {
 
     private BufferedImage maze = null;
 
+    public int nutrients = 100;
+
     //constructor
     public MazeGame() {
-        new MazeWindow(1000, 700, "Mushroom Maze", this);
+        new MazeWindow(1000, 563, "Mushroom Maze", this);
         start();
 
         handler = new MazeObjectHandler();
@@ -27,7 +29,7 @@ public class MazeGame extends Canvas implements  Runnable {
 
         //key and mouse listeners
         this.addKeyListener(new MazeKeyInput(handler));
-        this.addMouseListener(new MazeMouseInput(handler, camera));
+        this.addMouseListener(new MazeMouseInput(handler, camera, this));
 
         //load maze image
         BufferedImageLoader loader =  new BufferedImageLoader();
@@ -111,7 +113,7 @@ public class MazeGame extends Canvas implements  Runnable {
 
         //background
         g.setColor(Color.gray);
-        g.fillRect(0, 0, 1000, 700);
+        g.fillRect(0, 0, 1000, 563);
 
         //everything between g2d.translates is translated, keep bg above
         g2d.translate(-camera.getX(), -camera.getY());
@@ -141,11 +143,14 @@ public class MazeGame extends Canvas implements  Runnable {
                 if (red == 255)
                     handler.addObject(new Wall(xx * 20, yy * 20, ID.Wall));
 
-                if (blue == 255)
-                    handler.addObject(new Mushroom(xx * 20, yy * 30, ID.Player, handler));
+                if (blue == 255 && green == 0)
+                    handler.addObject(new Mushroom(xx * 20, yy * 30, ID.Player, handler, this));
 
-                if (green == 255)
+                if (green == 255 && blue == 0)
                     handler.addObject(new Slug(xx * 30, yy * 20, ID.Enemy, handler));
+
+                if ( green == 255 && blue == 255)
+                    handler.addObject(new Food(xx * 20, yy * 20, ID.Food));
             }
         }
     }
