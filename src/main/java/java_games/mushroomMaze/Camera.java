@@ -14,14 +14,14 @@ public class Camera {
     public void tick(MazeGameObject object) {
 
         //lock coordinates to player object
-        x += ((object.getX() - x) - 1000 / 2) * 0.05f;
-        y += ((object.getY() - y) - 700 / 2) * 0.05f;
+        x += ((object.getX() - x) - 1000/2) * 0.05f;
+        y += ((object.getY() - y) - 563/2) * 0.05f;
 
         //set parameters to window size
         if (x <= 0 ) x = 0;
-        if (x >= 1000) x = 1000; //needs adjusting
+        if (x >= 1048) x = 1048; //needs adjusting
         if (y <= 0) y = 0;
-        if (y >= 700) y = 700; //needs adjusting
+        if (y >= 1548) y = 1548 ; //needs adjusting
 
 
     }

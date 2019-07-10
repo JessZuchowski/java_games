@@ -14,8 +14,11 @@ public class MazeGame extends Canvas implements  Runnable {
     private Thread thread;
     private MazeObjectHandler handler;
     private Camera camera;
+    private SpriteSheet sheet;
 
     private BufferedImage maze = null;
+    private BufferedImage sprite_sheet = null;
+    private BufferedImage floor = null;
 
     public int nutrients = 100;
 
@@ -27,13 +30,19 @@ public class MazeGame extends Canvas implements  Runnable {
         handler = new MazeObjectHandler();
         camera = new Camera(0,0);
 
-        //key and mouse listeners
+        //key listener
         this.addKeyListener(new MazeKeyInput(handler));
-        this.addMouseListener(new MazeMouseInput(handler, camera, this));
 
-        //load maze image
+        //load maze and sprite sheet images
         BufferedImageLoader loader =  new BufferedImageLoader();
         maze = loader.loadImage("/maze1.png");
+        sprite_sheet = loader.loadImage("/spritesheet.png");
+
+        sheet = new SpriteSheet(sprite_sheet);
+        floor = sheet.getSpriteImage(6, 2, 32, 32);
+
+        //mouse listener
+        this.addMouseListener(new MazeMouseInput(handler, camera, this, sheet));
 
         loadMaze(maze);
 
@@ -60,8 +69,8 @@ public class MazeGame extends Canvas implements  Runnable {
         //thread to call game loop and render
         this.requestFocus();
         long lastTime = System.nanoTime();
-        double amountofTicks = 60.0;
-        double ns = 1000000000 / amountofTicks;
+        double amountOfTicks = 60.0;
+        double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
@@ -95,7 +104,6 @@ public class MazeGame extends Canvas implements  Runnable {
         }
 
         handler.tick();
-
     }
 
     //method to render game (nano seconds)
@@ -112,11 +120,18 @@ public class MazeGame extends Canvas implements  Runnable {
         //BEGIN DRAWING TO GAME
 
         //background
-        g.setColor(Color.gray);
-        g.fillRect(0, 0, 1000, 563);
+//        g.setColor(Color.gray);
+//        g.fillRect(0, 0, 1000, 563);
 
-        //everything between g2d.translates is translated, keep bg above
+        //everything between g2d.translates is translated
         g2d.translate(-camera.getX(), -camera.getY());
+
+        //draw floor tiles
+        for (int xx = 0; xx < 30 * 72; xx+=32) {
+            for (int yy = 0; yy < 30 * 72; yy+=32) {
+                g.drawImage(floor, xx, yy, null);
+            }
+        }
 
         handler.render(g); //needs to be under bg
 
@@ -141,16 +156,16 @@ public class MazeGame extends Canvas implements  Runnable {
                 int blue = (pixel) & 0xff;
 
                 if (red == 255)
-                    handler.addObject(new Wall(xx * 20, yy * 20, ID.Wall));
+                    handler.addObject(new Wall(xx * 32, yy * 32, ID.Wall, sheet));
 
                 if (blue == 255 && green == 0)
-                    handler.addObject(new Mushroom(xx * 20, yy * 30, ID.Player, handler, this));
+                    handler.addObject(new Mushroom(xx * 32, yy * 48, ID.Player, handler, this, sheet));
 
                 if (green == 255 && blue == 0)
-                    handler.addObject(new Slug(xx * 30, yy * 20, ID.Enemy, handler));
+                    handler.addObject(new Slug(xx * 32, yy * 32, ID.Enemy, handler, sheet));
 
                 if ( green == 255 && blue == 255)
-                    handler.addObject(new Food(xx * 20, yy * 20, ID.Food));
+                    handler.addObject(new Food(xx * 32, yy * 32, ID.Food, sheet));
             }
         }
     }
