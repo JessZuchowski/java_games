@@ -1,16 +1,21 @@
 package java_games.mushroomMaze;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Mushroom extends MazeGameObject{
 
     private MazeObjectHandler handler;
     public  MazeGame game;
 
-    public Mushroom(int x, int y, ID id, MazeObjectHandler handler, MazeGame game) {
-        super(x, y, id);
+    private BufferedImage mushroom_image;
+
+    public Mushroom(int x, int y, ID id, MazeObjectHandler handler, MazeGame game, SpriteSheet sheet) {
+        super(x, y, id, sheet);
         this.handler = handler;
         this.game = game;
+
+        mushroom_image = sheet.getSpriteImage(1, 1, 32, 48);
     }
 
     @Override
@@ -48,7 +53,7 @@ public class Mushroom extends MazeGameObject{
                     y += velocityY * -1;
                 }
             }
-            //remove food object and add nutriends
+            //remove food object and add nutrients
             if (tempObject.getId() == ID.Food) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     game.nutrients += 5;
@@ -60,14 +65,15 @@ public class Mushroom extends MazeGameObject{
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.orange);
-        g.fillRect(x, y, 20, 30);
+//        g.setColor(Color.orange);
+//        g.fillRect(x, y, 32, 48);
+        g.drawImage(mushroom_image, x, y, null);
 
     }
 
     @Override
     public Rectangle getBounds() {
 
-        return new Rectangle(x, y, 20, 30);
+        return new Rectangle(x, y, 32, 48);
     }
 }

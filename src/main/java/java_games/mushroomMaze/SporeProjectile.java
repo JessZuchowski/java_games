@@ -6,8 +6,8 @@ public class SporeProjectile extends MazeGameObject {
 
     private MazeObjectHandler handler;
 
-    public SporeProjectile(int x, int y, ID id, MazeObjectHandler handler, int mx, int my) {
-        super(x, y, id);
+    public SporeProjectile(int x, int y, ID id, MazeObjectHandler handler, int mx, int my, SpriteSheet sheet) {
+        super(x, y, id, sheet);
         this.handler = handler;
 
         velocityX = (mx - x) / 40;

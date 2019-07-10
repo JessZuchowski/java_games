@@ -7,11 +7,13 @@ public abstract class MazeGameObject {
     protected int x, y;
     protected float velocityX = 0, velocityY = 0;
     protected ID id;
+    protected SpriteSheet sheet;
 
-    public MazeGameObject(int x, int y, ID id) {
+    public MazeGameObject(int x, int y, ID id, SpriteSheet sheet) {
         this.x = x;
         this.y = y;
         this.id = id;
+        this.sheet = sheet;
     }
 
     public abstract void tick();

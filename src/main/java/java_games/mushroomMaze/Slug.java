@@ -1,6 +1,7 @@
 package java_games.mushroomMaze;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Slug extends MazeGameObject{
@@ -10,9 +11,13 @@ public class Slug extends MazeGameObject{
     int choose = 0;
     int hp = 50;
 
-    public Slug(int x, int y, ID id, MazeObjectHandler handler) {
-        super(x, y, id);
+    private BufferedImage slug_image;
+
+    public Slug(int x, int y, ID id, MazeObjectHandler handler, SpriteSheet sheet) {
+        super(x, y, id, sheet);
         this.handler = handler;
+
+        slug_image = sheet.getSpriteImage(6, 1, 32, 32);
     }
 
     @Override
@@ -51,24 +56,25 @@ public class Slug extends MazeGameObject{
         //when hp reach 0, turn slug into food
         if (hp <= 0) {
             handler.removeObject(this);
-            handler.addObject(new Food(this.getX(), this.getY(), ID.Food));
+            handler.addObject(new Food(this.getX(), this.getY(), ID.Food, sheet));
         }
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.yellow);
-        g.fillRect(x, y, 30, 20);
+//        g.setColor(Color.yellow);
+//        g.fillRect(x, y, 32, 32);
+        g.drawImage(slug_image, x, y, null);
 
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 30, 20);
+        return new Rectangle(x, y, 32, 32);
     }
 
     //create wider bubble around enemy object
     public Rectangle getBoundsBubble() {
-        return new Rectangle(x - 15, y - 10, 60, 40);
+        return new Rectangle(x - 15, y - 10, 64, 64);
     }
 }

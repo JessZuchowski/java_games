@@ -8,11 +8,13 @@ public class MazeMouseInput extends MouseAdapter {
     private MazeObjectHandler handler;
     private Camera camera;
     private MazeGame game;
+    private SpriteSheet sheet;
 
-    public MazeMouseInput (MazeObjectHandler handler, Camera camera, MazeGame game) {
+    public MazeMouseInput (MazeObjectHandler handler, Camera camera, MazeGame game, SpriteSheet sheet) {
         this.handler = handler;
         this.camera = camera;
         this.game = game;
+        this.sheet = sheet;
     }
 
     public void mousePressed(MouseEvent e) {
@@ -25,10 +27,10 @@ public class MazeMouseInput extends MouseAdapter {
 
             //can only disperse spores if nutrient stores are available
             if (tempObject.getId() == ID.Player && game.nutrients >=1) {
-                handler.addObject(new SporeProjectile(tempObject.getX() + 16, tempObject.getY() + 24, ID.Projectile, handler, mx, my));
-                handler.addObject(new SporeProjectile(tempObject.getX() + 15, tempObject.getY() + 20, ID.Projectile, handler, mx, my));
-                handler.addObject(new SporeProjectile(tempObject.getX() + 16, tempObject.getY() + 16, ID.Projectile, handler, mx, my));
-                handler.addObject(new SporeProjectile(tempObject.getX() + 15, tempObject.getY() + 12, ID.Projectile, handler, mx, my));
+                handler.addObject(new SporeProjectile(tempObject.getX() + 16, tempObject.getY() + 24, ID.Projectile, handler, mx, my, sheet));
+                handler.addObject(new SporeProjectile(tempObject.getX() + 15, tempObject.getY() + 20, ID.Projectile, handler, mx, my, sheet));
+                handler.addObject(new SporeProjectile(tempObject.getX() + 16, tempObject.getY() + 16, ID.Projectile, handler, mx, my, sheet));
+                handler.addObject(new SporeProjectile(tempObject.getX() + 15, tempObject.getY() + 12, ID.Projectile, handler, mx, my, sheet));
                 game.nutrients--;
             }
         }
