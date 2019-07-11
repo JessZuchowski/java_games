@@ -39,7 +39,7 @@ public class MazeGame extends Canvas implements  Runnable {
         sprite_sheet = loader.loadImage("/spritesheet.png");
 
         sheet = new SpriteSheet(sprite_sheet);
-        floor = sheet.getSpriteImage(6, 2, 32, 32);
+        floor = sheet.getSpriteImage(5, 2, 32, 32);
 
         //mouse listener
         this.addMouseListener(new MazeMouseInput(handler, camera, this, sheet));

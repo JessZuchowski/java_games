@@ -1,5 +1,7 @@
 package java_games.mushroomMaze;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -11,13 +13,20 @@ public class Slug extends MazeGameObject{
     int choose = 0;
     int hp = 50;
 
-    private BufferedImage slug_image;
+    private BufferedImage[] slug_image = new BufferedImage[5];
+    Animation animation;
 
     public Slug(int x, int y, ID id, MazeObjectHandler handler, SpriteSheet sheet) {
         super(x, y, id, sheet);
         this.handler = handler;
 
-        slug_image = sheet.getSpriteImage(6, 1, 32, 32);
+        slug_image[0] = sheet.getSpriteImage(5, 1, 32, 32);
+        slug_image[1] = sheet.getSpriteImage(12, 1, 32, 32);
+        slug_image[2] = sheet.getSpriteImage(6, 1, 32, 32);
+        slug_image[3] = sheet.getSpriteImage(11, 1, 32, 32);
+        slug_image[4] = sheet.getSpriteImage(7, 1, 32, 32);
+
+        animation = new Animation(5, slug_image[1], slug_image[0], slug_image[1], slug_image[2], slug_image[3], slug_image[4], slug_image[3]);
     }
 
     @Override
@@ -58,14 +67,18 @@ public class Slug extends MazeGameObject{
             handler.removeObject(this);
             handler.addObject(new Food(this.getX(), this.getY(), ID.Food, sheet));
         }
+
+        animation.runAnimation();
     }
 
     @Override
     public void render(Graphics g) {
 //        g.setColor(Color.yellow);
 //        g.fillRect(x, y, 32, 32);
-        g.drawImage(slug_image, x, y, null);
-
+        if (velocityX == 0 && velocityY == 0)
+            g.drawImage(slug_image[1], x, y, null);
+        else
+            animation.drawAnimation(g, x, y, 0);
     }
 
     @Override

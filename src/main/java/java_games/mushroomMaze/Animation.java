@@ -539,5 +539,5 @@ public class Animation {
         public void setSpeed(int speed){
             this.speed = speed;
         }
-        
+
 }

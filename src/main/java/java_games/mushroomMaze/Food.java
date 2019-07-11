@@ -10,7 +10,7 @@ public class Food extends MazeGameObject{
     public Food(int x, int y, ID id, SpriteSheet sheet) {
         super(x, y, id, sheet);
 
-        food_image = sheet.getSpriteImage(8, 1, 32, 32);
+        food_image = sheet.getSpriteImage(7, 2, 32, 32);
     }
 
     @Override

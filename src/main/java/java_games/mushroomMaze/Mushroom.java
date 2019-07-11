@@ -8,14 +8,20 @@ public class Mushroom extends MazeGameObject{
     private MazeObjectHandler handler;
     public  MazeGame game;
 
-    private BufferedImage mushroom_image;
+    private BufferedImage[] mushroom_image = new BufferedImage[3];
+    Animation animation;
 
     public Mushroom(int x, int y, ID id, MazeObjectHandler handler, MazeGame game, SpriteSheet sheet) {
         super(x, y, id, sheet);
         this.handler = handler;
         this.game = game;
 
-        mushroom_image = sheet.getSpriteImage(1, 1, 32, 48);
+        mushroom_image[0] = sheet.getSpriteImage(1, 1, 32, 48);
+        mushroom_image[1] = sheet.getSpriteImage(2, 1, 32, 48);
+        mushroom_image[2] = sheet.getSpriteImage(3, 1, 32, 48);
+
+
+        animation = new Animation(3, mushroom_image[0], mushroom_image[1], mushroom_image[2]);
     }
 
     @Override
@@ -38,6 +44,8 @@ public class Mushroom extends MazeGameObject{
 
         if (handler.isRight()) velocityX = 2;
         else if (!handler.isLeft()) velocityX = 0;
+
+        animation.runAnimation();
     }
 
     private void wallCollision() {
@@ -67,8 +75,10 @@ public class Mushroom extends MazeGameObject{
     public void render(Graphics g) {
 //        g.setColor(Color.orange);
 //        g.fillRect(x, y, 32, 48);
-        g.drawImage(mushroom_image, x, y, null);
-
+        if (velocityX == 0 && velocityY == 0)
+            g.drawImage(mushroom_image[0], x, y, null);
+        else
+            animation.drawAnimation(g, x, y, 0);
     }
 
     @Override
