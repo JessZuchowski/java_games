@@ -26,7 +26,7 @@ public class Slug extends MazeGameObject{
         slug_image[3] = sheet.getSpriteImage(11, 1, 32, 32);
         slug_image[4] = sheet.getSpriteImage(7, 1, 32, 32);
 
-        animation = new Animation(5, slug_image[1], slug_image[0], slug_image[1], slug_image[2], slug_image[3], slug_image[4], slug_image[3]);
+        animation = new Animation(14, slug_image[1], slug_image[0], slug_image[1], slug_image[2], slug_image[3], slug_image[4], slug_image[3]);
     }
 
     @Override
