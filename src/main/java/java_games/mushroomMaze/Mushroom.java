@@ -1,18 +1,22 @@
 package java_games.mushroomMaze;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class Mushroom extends MazeGameObject{
 
     private MazeObjectHandler handler;
+    private MazeMouseInput mouseInput;
     public  MazeGame game;
 
-    private BufferedImage[] mushroom_image = new BufferedImage[17];
+    //array of images
+    private BufferedImage[] mushroom_image = new BufferedImage[18];
     Animation animationDown;
     Animation animationUp;
     Animation animationLeft;
     Animation animationRight;
+    Animation animationSpore;
 
     public Mushroom(int x, int y, ID id, MazeObjectHandler handler, MazeGame game, SpriteSheet sheet) {
         super(x, y, id, sheet);
@@ -41,12 +45,20 @@ public class Mushroom extends MazeGameObject{
         mushroom_image[15] = sheet.getSpriteImage(22, 1, 32, 48);
         //spore image
         mushroom_image[16] = sheet.getSpriteImage(4, 1, 32, 48);
+        mushroom_image[17] = sheet.getSpriteImage(23, 1, 32, 48);
 
-
-        animationDown = new Animation(3, mushroom_image[0], mushroom_image[1], mushroom_image[2]);
-        animationUp = new Animation(3, mushroom_image[3], mushroom_image[4], mushroom_image[5]);
-        animationLeft = new Animation(3, mushroom_image[6], mushroom_image[7], mushroom_image[8], mushroom_image[9], mushroom_image[10]);
-        animationRight = new Animation(3, mushroom_image[11], mushroom_image[12], mushroom_image[13], mushroom_image[14], mushroom_image[15]);
+        //set speed and images for animations
+        animationDown = new Animation(4, mushroom_image[0], mushroom_image[1],
+                mushroom_image[0], mushroom_image[2]);
+        animationUp = new Animation(4, mushroom_image[3], mushroom_image[4],
+                mushroom_image[3], mushroom_image[5]);
+        animationLeft = new Animation(5, mushroom_image[6], mushroom_image[7],
+                mushroom_image[8], mushroom_image[7], mushroom_image[6],
+                mushroom_image[9], mushroom_image[10], mushroom_image[9]);
+        animationRight = new Animation(5, mushroom_image[11], mushroom_image[12],
+                mushroom_image[13], mushroom_image[12], mushroom_image[11],
+                mushroom_image[14], mushroom_image[15], mushroom_image[14]);
+        animationSpore = new Animation(4, mushroom_image[16], mushroom_image[17]);
     }
 
     @Override
@@ -70,10 +82,12 @@ public class Mushroom extends MazeGameObject{
         if (handler.isRight()) velocityX = 2;
         else if (!handler.isLeft()) velocityX = 0;
 
+        //run animations
         animationDown.runAnimation();
         animationUp.runAnimation();
         animationLeft.runAnimation();
         animationRight.runAnimation();
+        animationSpore.runAnimation();
     }
 
     private void wallCollision() {
@@ -101,10 +115,8 @@ public class Mushroom extends MazeGameObject{
 
     @Override
     public void render(Graphics g) {
-//        g.setColor(Color.orange);
-//        g.fillRect(x, y, 32, 48);
         if (velocityX == 0 && velocityY == 0)
-            g.drawImage(mushroom_image[0], x, y, null);
+            animationSpore.drawAnimation(g, x, y, 0);
         else if (velocityY == -2)
             animationUp.drawAnimation(g, x, y, 0);
         else if (velocityY == 2)

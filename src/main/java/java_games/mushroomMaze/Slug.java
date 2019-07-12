@@ -26,7 +26,7 @@ public class Slug extends MazeGameObject{
         slug_image[3] = sheet.getSpriteImage(11, 1, 32, 32);
         slug_image[4] = sheet.getSpriteImage(7, 1, 32, 32);
 
-        animation = new Animation(14, slug_image[1], slug_image[0], slug_image[1], slug_image[2], slug_image[3], slug_image[4], slug_image[3]);
+        animation = new Animation(9, slug_image[2], slug_image[3], slug_image[4], slug_image[3], slug_image[2], slug_image[1], slug_image[0], slug_image[1], slug_image[2]);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class Slug extends MazeGameObject{
         y += velocityY;
 
         //randomized movement
-        choose = r.nextInt(10);
+        choose = r.nextInt(100);
 
         for (int i = 0; i < handler.object.size(); i++) {
             MazeGameObject tempObject = handler.object.get(i);
@@ -45,14 +45,14 @@ public class Slug extends MazeGameObject{
 
                 if (getBoundsBubble().intersects(tempObject.getBounds())) {
                     //change velocity
-                    x += (velocityX * 2) * -1;
-                    y += (velocityY * 2) * -1;
+                    x += (velocityX * 2) * -0.5;
+                    y += (velocityY * 2) * -0.5;
                     velocityX *= -1;
                     velocityY *= -1;
 
                 } else if (choose == 0) {
-                    velocityX = (r.nextInt(4 - -4) + -4);
-                    velocityY = (r.nextInt(4 - -4) + -4);
+                    velocityX = (r.nextInt(2 - -2) + -2);
+                    velocityY = (r.nextInt(2 - -2) + -2);
                 }
             }
             if (tempObject.getId() == ID.Projectile) {
@@ -73,10 +73,8 @@ public class Slug extends MazeGameObject{
 
     @Override
     public void render(Graphics g) {
-//        g.setColor(Color.yellow);
-//        g.fillRect(x, y, 32, 32);
         if (velocityX == 0 && velocityY == 0)
-            g.drawImage(slug_image[1], x, y, null);
+            g.drawImage(slug_image[2], x, y, null);
         else
             animation.drawAnimation(g, x, y, 0);
     }
