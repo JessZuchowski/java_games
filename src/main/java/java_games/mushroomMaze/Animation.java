@@ -26,7 +26,7 @@ public class Animation {
         private BufferedImage img14;
 
         private BufferedImage currentImg;
-        //13 frame animation
+        //14 frame animation
         public Animation(int speed, BufferedImage img1, BufferedImage img2, BufferedImage img3, BufferedImage img4, BufferedImage img5, BufferedImage img6, BufferedImage img7, BufferedImage img8, BufferedImage img9, BufferedImage img10, BufferedImage img11, BufferedImage img12, BufferedImage img13, BufferedImage img14){
             this.speed = speed;
             this.img1 = img1;
@@ -539,5 +539,5 @@ public class Animation {
         public void setSpeed(int speed){
             this.speed = speed;
         }
-        
+
 }

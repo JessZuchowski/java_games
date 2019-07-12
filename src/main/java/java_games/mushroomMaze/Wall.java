@@ -10,7 +10,7 @@ public class Wall extends MazeGameObject {
     public Wall(int x, int y, ID id, SpriteSheet sheet) {
         super(x, y, id, sheet);
 
-        wall_image = sheet.getSpriteImage(7, 2, 32, 32);
+        wall_image = sheet.getSpriteImage(6, 2, 32, 32);
     }
 
     @Override
