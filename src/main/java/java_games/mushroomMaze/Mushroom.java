@@ -66,7 +66,7 @@ public class Mushroom extends MazeGameObject{
         x += velocityX;
         y += velocityY;
         
-        wallCollision();
+        collision();
 
         //set movement handlers
         //else if to prevent lag
@@ -90,7 +90,7 @@ public class Mushroom extends MazeGameObject{
         animationSpore.runAnimation();
     }
 
-    private void wallCollision() {
+    private void collision() {
 
         for (int i = 0; i < handler.object.size(); i ++) {
             MazeGameObject tempObject = handler.object.get(i);
@@ -108,6 +108,12 @@ public class Mushroom extends MazeGameObject{
                 if (getBounds().intersects(tempObject.getBounds())) {
                     game.nutrients += 5;
                     handler.removeObject(tempObject);
+                }
+            }
+            //enemy collision damage
+            if (tempObject.getId() == ID.Enemy) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    game.hp--;
                 }
             }
         }

@@ -21,6 +21,7 @@ public class MazeGame extends Canvas implements  Runnable {
     private BufferedImage floor = null;
 
     public int nutrients = 100;
+    public int hp = 100;
 
     //constructor
     public MazeGame() {
@@ -136,6 +137,18 @@ public class MazeGame extends Canvas implements  Runnable {
         handler.render(g); //needs to be under bg
 
         g2d.translate(camera.getX(), camera.getY());
+
+        //render health bar
+        g.setColor(Color.gray);
+        g.fillRect(5, 5, 200, 32);
+        g.setColor(Color.orange);
+        g.fillRect(5, 5, hp * 2, 32);
+        g.setColor(Color.black);
+        g.drawRect(5, 5, 200, 32);
+
+        //render nutrient bar
+        g.setColor(Color.cyan);
+        g.drawString("Nutrients: " + nutrients, 5, 50);
 
         //END DRAWING TO GAME
         g.dispose();
