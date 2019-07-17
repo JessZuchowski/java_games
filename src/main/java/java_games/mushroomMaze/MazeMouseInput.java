@@ -25,13 +25,14 @@ public class MazeMouseInput extends MouseAdapter {
         for (int i = 0; i < handler.object.size(); i ++) {
             MazeGameObject tempObject = handler.object.get(i);
 
-            //can only disperse spores if nutrient stores are available
-            if (tempObject.getId() == ID.Player && game.nutrients >=1) {
+            //can only disperse spores if stores are available
+            if (tempObject.getId() == ID.Player && game.spores >=1) {
                 handler.addObject(new SporeProjectile(tempObject.getX() + 16, tempObject.getY() + 24, ID.Projectile, handler, mx, my, sheet));
                 handler.addObject(new SporeProjectile(tempObject.getX() + 15, tempObject.getY() + 20, ID.Projectile, handler, mx, my, sheet));
+                game.spores--;
                 handler.addObject(new SporeProjectile(tempObject.getX() + 16, tempObject.getY() + 16, ID.Projectile, handler, mx, my, sheet));
                 handler.addObject(new SporeProjectile(tempObject.getX() + 15, tempObject.getY() + 12, ID.Projectile, handler, mx, my, sheet));
-                game.nutrients--;
+                game.spores--;
             }
         }
     }

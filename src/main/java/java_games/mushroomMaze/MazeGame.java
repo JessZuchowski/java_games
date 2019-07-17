@@ -1,7 +1,5 @@
 package java_games.mushroomMaze;
 
-import org.checkerframework.checker.units.qual.C;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -15,12 +13,13 @@ public class MazeGame extends Canvas implements  Runnable {
     private MazeObjectHandler handler;
     private Camera camera;
     private SpriteSheet sheet;
+    private Font font = new Font("SanSerif", Font.BOLD, 15);
 
     private BufferedImage maze = null;
     private BufferedImage sprite_sheet = null;
     private BufferedImage floor = null;
 
-    public int nutrients = 100;
+    public int spores = 100;
     public int hp = 100;
 
     //constructor
@@ -121,8 +120,6 @@ public class MazeGame extends Canvas implements  Runnable {
         //BEGIN DRAWING TO GAME
 
         //background
-//        g.setColor(Color.gray);
-//        g.fillRect(0, 0, 1000, 563);
 
         //everything between g2d.translates is translated
         g2d.translate(-camera.getX(), -camera.getY());
@@ -139,16 +136,21 @@ public class MazeGame extends Canvas implements  Runnable {
         g2d.translate(camera.getX(), camera.getY());
 
         //render health bar
-        g.setColor(Color.gray);
+        g.setColor(Color.darkGray);
         g.fillRect(5, 5, 200, 32);
         g.setColor(Color.orange);
         g.fillRect(5, 5, hp * 2, 32);
         g.setColor(Color.black);
         g.drawRect(5, 5, 200, 32);
 
-        //render nutrient bar
-        g.setColor(Color.cyan);
-        g.drawString("Nutrients: " + nutrients, 5, 50);
+        //render spore bar
+        g.setColor(Color.darkGray);
+        g.fillRect(5, 40, 120, 32);
+        g.setColor(Color.CYAN);
+        g.setFont(font);
+        g.drawString("Spores : " + spores, 20, 60);
+        g.setColor(Color.black);
+        g.drawRect(5, 40, 120, 32);
 
         //END DRAWING TO GAME
         g.dispose();
@@ -168,17 +170,21 @@ public class MazeGame extends Canvas implements  Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
 
-                if (red == 255)
+                if (red == 255 && blue == 0 && green == 0)
                     handler.addObject(new Wall(xx * 32, yy * 32, ID.Wall, sheet));
 
-                if (blue == 255 && green == 0)
+                if (blue == 255 && green == 0 && red == 0)
                     handler.addObject(new Mushroom(xx * 32, yy * 48, ID.Player, handler, this, sheet));
 
-                if (green == 255 && blue == 0)
+                if (green == 255 && blue == 0 && red == 0)
                     handler.addObject(new Slug(xx * 32, yy * 32, ID.Enemy, handler, sheet));
 
-                if ( green == 255 && blue == 255)
-                    handler.addObject(new Food(xx * 32, yy * 32, ID.Food, sheet));
+                if ( green == 255 && blue == 255 && red == 0)
+                    handler.addObject(new FoodSpores(xx * 32, yy * 32, ID.FoodSpores, sheet));
+
+                if ( red == 255 && green == 255 && blue == 0) {
+                    handler.addObject(new FoodHealth(xx * 32, yy * 32, ID.FoodHealth, sheet));
+                }
             }
         }
     }

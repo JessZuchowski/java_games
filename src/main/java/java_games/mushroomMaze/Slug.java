@@ -1,7 +1,5 @@
 package java_games.mushroomMaze;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -65,7 +63,7 @@ public class Slug extends MazeGameObject{
         //when hp reach 0, turn slug into food
         if (hp <= 0) {
             handler.removeObject(this);
-            handler.addObject(new Food(this.getX(), this.getY(), ID.Food, sheet));
+            handler.addObject(new FoodSpores(this.getX(), this.getY(), ID.FoodSpores, sheet));
         }
 
         animation.runAnimation();

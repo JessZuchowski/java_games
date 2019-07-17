@@ -3,7 +3,8 @@ package java_games.mushroomMaze;
 public enum ID {
 
     Wall(),
-    Food(),
+    FoodSpores(),
+    FoodHealth(),
     Player(),
     Enemy(),
     Projectile();

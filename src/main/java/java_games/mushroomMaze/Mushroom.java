@@ -103,10 +103,10 @@ public class Mushroom extends MazeGameObject{
                     y += velocityY * -1;
                 }
             }
-            //remove food object and add nutrients
-            if (tempObject.getId() == ID.Food) {
+            //remove food object and add spores
+            if (tempObject.getId() == ID.FoodSpores) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    game.nutrients += 5;
+                    game.spores += 5;
                     handler.removeObject(tempObject);
                 }
             }
@@ -114,6 +114,13 @@ public class Mushroom extends MazeGameObject{
             if (tempObject.getId() == ID.Enemy) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     game.hp--;
+                }
+            }
+            //add health
+            if (tempObject.getId() == ID.FoodHealth) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    game.hp +=5;
+                    handler.removeObject(tempObject);
                 }
             }
         }
