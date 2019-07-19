@@ -111,7 +111,7 @@ public class Mushroom extends MazeGameObject{
                 }
             }
             //enemy collision damage
-            if (tempObject.getId() == ID.Enemy) {
+            if (tempObject.getId() == ID.Enemy && game.hp >=1) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     game.hp--;
                 }

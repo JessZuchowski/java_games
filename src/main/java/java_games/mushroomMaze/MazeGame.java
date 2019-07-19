@@ -5,9 +5,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class MazeGame extends Canvas implements  Runnable {
-
-    //serialization? private static final long serialVersionUID = 1L;
-
+    
     private boolean isRunning = false;
     private Thread thread;
     private MazeObjectHandler handler;
@@ -179,10 +177,10 @@ public class MazeGame extends Canvas implements  Runnable {
                 if (green == 255 && blue == 0 && red == 0)
                     handler.addObject(new Slug(xx * 32, yy * 32, ID.Enemy, handler, sheet));
 
-                if ( green == 255 && blue == 255 && red == 0)
+                if (green == 255 && blue == 255 && red == 0)
                     handler.addObject(new FoodSpores(xx * 32, yy * 32, ID.FoodSpores, sheet));
 
-                if ( red == 255 && green == 255 && blue == 0) {
+                if (red == 255 && green == 255 && blue == 0) {
                     handler.addObject(new FoodHealth(xx * 32, yy * 32, ID.FoodHealth, sheet));
                 }
             }
