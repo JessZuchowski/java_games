@@ -16,12 +16,16 @@ The first will be a game in which the user, as a little mushroom buddy, makes th
    
    d. Collision with enemies decreases hit points. 
    
-3. Enemy objects (slugs) that roam randomly.
+3. Enemy objects (slugs) that spawn at set locations.
 
-   a. Enemies have hit points & take damage from player spores.
+   a. Enemy movement is randomized.
+
+   b. Enemies have hit points & take damage from player spores.
    
-   b. At zero hp, slugs turn into nutrients for player to collect.
+   c. At zero hp, slugs turn into nutrients for player to collect.
+   
 4. Camera to follow player through maze.
+
 5. When player reaches end of maze a new level will start.
 
 ## Tools Used
