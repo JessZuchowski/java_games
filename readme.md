@@ -14,7 +14,7 @@ The first will be a game in which the user, as a little mushroom buddy, makes th
    
    c. Spore dispersal depletes nutrient stores.
    
-   d. Collision with enemies decreases hit points. 
+   d. Collision with enemies decreases hit points (auto restart at 0hp still to come). 
    
 3. Enemy objects (slugs) that spawn at set locations.
 
@@ -24,9 +24,9 @@ The first will be a game in which the user, as a little mushroom buddy, makes th
    
    c. At zero hp, slugs turn into nutrients for player to collect.
    
-4. Camera to follow player through maze.
+4. Camera follows player through maze.
 
-5. When player reaches end of maze a new level will start.
+5. When player reaches end of maze a new level will start (still to come).
 
 ## Tools Used
 
