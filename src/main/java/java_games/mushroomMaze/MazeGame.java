@@ -5,7 +5,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class MazeGame extends Canvas implements  Runnable {
-    
+
     private boolean isRunning = false;
     private Thread thread;
     private MazeObjectHandler handler;
@@ -16,6 +16,14 @@ public class MazeGame extends Canvas implements  Runnable {
     private BufferedImage maze = null;
     private BufferedImage sprite_sheet = null;
     private BufferedImage floor = null;
+
+    //game states with menu
+    private Menu menu;
+    private enum STATE {
+        MENU,
+        GAME
+    };
+    private STATE State = STATE.MENU;
 
     public int spores = 100;
     public int hp = 100;
@@ -35,6 +43,8 @@ public class MazeGame extends Canvas implements  Runnable {
         BufferedImageLoader loader =  new BufferedImageLoader();
         maze = loader.loadImage("/maze1.png");
         sprite_sheet = loader.loadImage("/spritesheet.png");
+
+        menu = new Menu();
 
         sheet = new SpriteSheet(sprite_sheet);
         floor = sheet.getSpriteImage(5, 2, 32, 32);
@@ -70,6 +80,7 @@ public class MazeGame extends Canvas implements  Runnable {
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
+        int updates = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
         while (isRunning) {
@@ -95,12 +106,13 @@ public class MazeGame extends Canvas implements  Runnable {
     public void tick() {
 
         //loop through objects, find player object for camera parameters
-        for (int i = 0; i < handler.object.size(); i++) {
-            if (handler.object.get(i).getId() == ID.Player) {
-                camera.tick(handler.object.get(i));
+        if (State == STATE.GAME) {
+            for (int i = 0; i < handler.object.size(); i++) {
+                if (handler.object.get(i).getId() == ID.Player) {
+                    camera.tick(handler.object.get(i));
+                }
             }
         }
-
         handler.tick();
     }
 
@@ -117,39 +129,43 @@ public class MazeGame extends Canvas implements  Runnable {
         Graphics2D g2d = (Graphics2D) g;
         //BEGIN DRAWING TO GAME
 
+        if (State == STATE.GAME) {
         //background
 
         //everything between g2d.translates is translated
-        g2d.translate(-camera.getX(), -camera.getY());
+            g2d.translate(-camera.getX(), -camera.getY());
 
-        //draw floor tiles
-        for (int xx = 0; xx < 30 * 72; xx+=32) {
-            for (int yy = 0; yy < 30 * 72; yy+=32) {
-                g.drawImage(floor, xx, yy, null);
+            //draw floor tiles
+            for (int xx = 0; xx < 30 * 72; xx += 32) {
+                for (int yy = 0; yy < 30 * 72; yy += 32) {
+                    g.drawImage(floor, xx, yy, null);
+                }
             }
+
+            handler.render(g); //needs to be under bg
+
+            g2d.translate(camera.getX(), camera.getY());
+
+            //render health bar
+            g.setColor(Color.darkGray);
+            g.fillRect(5, 5, 200, 32);
+            g.setColor(Color.orange);
+            g.fillRect(5, 5, hp * 2, 32);
+            g.setColor(Color.black);
+            g.drawRect(5, 5, 200, 32);
+
+            //render spore bar
+            g.setColor(Color.darkGray);
+            g.fillRect(5, 40, 120, 32);
+            g.setColor(Color.CYAN);
+            g.setFont(font);
+            g.drawString("Spores : " + spores, 20, 60);
+            g.setColor(Color.black);
+            g.drawRect(5, 40, 120, 32);
+
+        } else if(State == STATE.MENU) {
+            menu.render(g);
         }
-
-        handler.render(g); //needs to be under bg
-
-        g2d.translate(camera.getX(), camera.getY());
-
-        //render health bar
-        g.setColor(Color.darkGray);
-        g.fillRect(5, 5, 200, 32);
-        g.setColor(Color.orange);
-        g.fillRect(5, 5, hp * 2, 32);
-        g.setColor(Color.black);
-        g.drawRect(5, 5, 200, 32);
-
-        //render spore bar
-        g.setColor(Color.darkGray);
-        g.fillRect(5, 40, 120, 32);
-        g.setColor(Color.CYAN);
-        g.setFont(font);
-        g.drawString("Spores : " + spores, 20, 60);
-        g.setColor(Color.black);
-        g.drawRect(5, 40, 120, 32);
-
         //END DRAWING TO GAME
         g.dispose();
         bs.show();
