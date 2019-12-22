@@ -18,12 +18,12 @@ public class MazeGame extends Canvas implements  Runnable {
     private BufferedImage floor = null;
 
     //game states with menu
-    private Menu menu;
-    private enum STATE {
-        MENU,
-        GAME
-    };
-    private STATE State = STATE.MENU;
+//    private Menu menu;
+//    private enum STATE {
+//        MENU,
+//        GAME
+//    }
+//    private STATE State = STATE.MENU;
 
     public int spores = 100;
     public int hp = 100;
@@ -44,7 +44,7 @@ public class MazeGame extends Canvas implements  Runnable {
         maze = loader.loadImage("/maze1.png");
         sprite_sheet = loader.loadImage("/spritesheet.png");
 
-        menu = new Menu();
+//        menu = new Menu();
 
         sheet = new SpriteSheet(sprite_sheet);
         floor = sheet.getSpriteImage(5, 2, 32, 32);
@@ -106,13 +106,13 @@ public class MazeGame extends Canvas implements  Runnable {
     public void tick() {
 
         //loop through objects, find player object for camera parameters
-        if (State == STATE.GAME) {
+//        if (State == STATE.GAME) {
             for (int i = 0; i < handler.object.size(); i++) {
                 if (handler.object.get(i).getId() == ID.Player) {
                     camera.tick(handler.object.get(i));
                 }
             }
-        }
+//        }
         handler.tick();
     }
 
@@ -129,7 +129,7 @@ public class MazeGame extends Canvas implements  Runnable {
         Graphics2D g2d = (Graphics2D) g;
         //BEGIN DRAWING TO GAME
 
-        if (State == STATE.GAME) {
+//        if (State == STATE.GAME) {
         //background
 
         //everything between g2d.translates is translated
@@ -163,9 +163,9 @@ public class MazeGame extends Canvas implements  Runnable {
             g.setColor(Color.black);
             g.drawRect(5, 40, 120, 32);
 
-        } else if(State == STATE.MENU) {
-            menu.render(g);
-        }
+//        } else if(State == STATE.MENU) {
+//            menu.render(g);
+//        }
         //END DRAWING TO GAME
         g.dispose();
         bs.show();
